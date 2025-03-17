@@ -1,3 +1,4 @@
+import time
 import requests
 import argparse
 import os
@@ -24,7 +25,6 @@ def analyze_url(short_url, show_engine_results, api_key):
     
     # Faz a request para a API do VirusTotal
     response = requests.post(url, data=payload, headers=headers)
-
     data = response.json()
     
     # Se a resposta tiver algum erro da API, exibe e retorna
@@ -34,9 +34,25 @@ def analyze_url(short_url, show_engine_results, api_key):
 
     analysis_id = data["data"]["id"]
     url_analysis = f"https://www.virustotal.com/api/v3/analyses/{analysis_id}"
-    response = requests.get(url_analysis, headers=headers)
-    response.raise_for_status()  # Verifica novamente se a resposta é bem-sucedida
-    data = response.json()
+
+    # Polling para verificar o status da análise
+    max_retries = 6  # Número máximo de tentativas (~1,5 min)
+    retry_delay = 15  # Tempo (em segundos) entre as tentativas
+
+    for attempt in range(max_retries):
+      response = requests.get(url_analysis, headers=headers)
+      data = response.json()
+      status = data["data"]["attributes"]["status"]
+
+      if status == "queued":
+        print(f"Analysis is queued... Retrying in {retry_delay} seconds ({attempt + 1}/{max_retries})")
+        time.sleep(retry_delay)
+      else:
+        break  # Sai do loop se o status for diferente de "queued"
+
+    if status == "queued":
+      print("Analysis is still in queue after multiple attempts. Try again later.")
+      return
     
     stats = data['data']['attributes']['stats']
     results = data['data']['attributes']['results']
