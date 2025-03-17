@@ -19,7 +19,7 @@ Clone the repository and install dependencies:
 
 ```sh
 # Clone the repository
-git clone https://github.com/ailsongabriel/truelink.git
+git clone https://github.com/ailsongabriel/TrueLink.git
 cd truelink
 
 # Install required dependencies
