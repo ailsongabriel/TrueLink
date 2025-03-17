@@ -12,7 +12,6 @@ def analyze_url(short_url, show_engine_results, api_key):
   try:
     # Faz a request para pegar a URL original
     response = requests.get(short_url, allow_redirects=True)
-    response.raise_for_status()  # Verifica se a resposta é 200 (sucesso)
     original_url = response.url
     
     # Monta a request para a API do VirusTotal
@@ -25,9 +24,6 @@ def analyze_url(short_url, show_engine_results, api_key):
     
     # Faz a request para a API do VirusTotal
     response = requests.post(url, data=payload, headers=headers)
-    
-    # Verifica se a resposta é bem-sucedida
-    response.raise_for_status()  # Verifica se a resposta é 200 (sucesso)
 
     data = response.json()
     
