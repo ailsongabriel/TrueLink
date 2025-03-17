@@ -23,7 +23,7 @@ git clone https://github.com/ailsongabriel/TrueLink.git
 cd truelink
 
 # Install required dependencies
-pip install -r requirements.txt
+pip install requests
 ```
 
 ## ⚙️ Usage
