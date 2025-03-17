@@ -51,11 +51,6 @@ Show detailed antivirus engine results:
 python truelink.py https://bit.ly/example --api-key-path api_key.txt --show-engines
 ```
 
-## ⚠️ Error Handling
-- If the API key file is missing, an error message will be displayed.
-- If the API request limit is reached, a warning will be shown.
-- If the URL cannot be analyzed, the script will notify the user.
-
 ## 🤝 Contribution
 Feel free to open issues and submit pull requests to improve TrueLink!
 
